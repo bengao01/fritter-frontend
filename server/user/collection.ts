@@ -20,8 +20,9 @@ class UserCollection {
    */
   static async addOne(username: string, password: string): Promise<HydratedDocument<User>> {
     const dateJoined = new Date();
+    const depolarize : boolean = false;
 
-    const user = new UserModel({username, password, dateJoined});
+    const user = new UserModel({username, password, dateJoined, depolarize});
     await user.save(); // Saves user to MongoDB
     return user;
   }
@@ -67,7 +68,7 @@ class UserCollection {
    * @param {Object} userDetails - An object with the user's updated credentials
    * @return {Promise<HydratedDocument<User>>} - The updated user
    */
-  static async updateOne(userId: Types.ObjectId | string, userDetails: {password?: string; username?: string}): Promise<HydratedDocument<User>> {
+  static async updateOne(userId: Types.ObjectId | string, userDetails: {password?: string; username?: string; depolarize?: boolean}): Promise<HydratedDocument<User>> {
     const user = await UserModel.findOne({_id: userId});
     if (userDetails.password) {
       user.password = userDetails.password;
@@ -75,6 +76,10 @@ class UserCollection {
 
     if (userDetails.username) {
       user.username = userDetails.username;
+    }
+
+    if (userDetails.depolarize) {
+      user.depolarize = userDetails.depolarize as boolean;
     }
 
     await user.save();
