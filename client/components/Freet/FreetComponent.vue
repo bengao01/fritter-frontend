@@ -337,7 +337,7 @@ export default {
           const res = await r.json();
           // console.log("res is:", res);
           // console.log("res.error is:", res.error);
-          // throw new Error(res.error);
+          throw new Error(res.error.downvoteNotFound);
         } else if (options.method === "GET") {
           // Like exists so we can show the user liked this
           this.downvoted = true;
@@ -345,14 +345,13 @@ export default {
 
         params.callback();
       } catch (e) {
-        console.log("e is", e.message);
-        // if (e.likeFound){
-        //   this.$set(this.alerts, e.likeFound, 'error');
-        // } else if(e.likeNotFound) {
-        //   this.$set(this.alerts, e.likeNotFound, 'error');
-        // } else{
-        //   this.$set(this.alerts, e, 'error');
-        // }
+        if (e.likeFound){
+          this.$set(this.alerts, e.likeFound, 'error');
+        } else if(e.likeNotFound) {
+          this.$set(this.alerts, e.likeNotFound, 'error');
+        } else{
+          this.$set(this.alerts, e, 'error');
+        }
         // this.$set(this.alerts, e, 'error');
         // setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
