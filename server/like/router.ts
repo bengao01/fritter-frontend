@@ -9,7 +9,7 @@ import * as util from './util';
 const router = express.Router();
 
 /**
- * Get number of likes on a Freet by freetId.
+ * Get the like corresponding to the user and freetId
  *
  * @name GET /api/likes?freetId=id
  *
@@ -20,6 +20,46 @@ const router = express.Router();
  */
 router.get(
   '/',
+  async (req: Request, res: Response, next: NextFunction) => {
+    // Check if freetId query parameter was supplied
+    req.params.freetId = String(req.query.freetId);
+    console.log(req.params);
+    console.log(req.query)
+    if (req.query.freetId !== undefined) {
+      next();
+      return;
+    }
+    
+    res.status(400).json({
+      error: {
+        missingQueryField: `Need to pass a freetID with this request.`
+      }
+    });
+    return;
+  },
+  [
+    userValidator.isUserLoggedIn,
+    freetValidator.isFreetExists,
+    likeValidator.isLikeExists
+  ],
+  async (req: Request, res: Response) => {
+    const like = await LikeCollection.findOne(req.session.userId, req.params.freetId as string);
+    res.status(200).json({"like": like});
+  }
+);
+
+/**
+ * Get number of likes on a Freet by freetId.
+ *
+ * @name GET /api/likes/count?freetId=id
+ *
+ * @return {LikeResponse[]} - An array of likes associated with id, freetId
+ * @throws {400} - If freetId is not given
+ * @throws {404} - If no freet has given freetId
+ *
+ */
+ router.get(
+  '/count',
   async (req: Request, res: Response, next: NextFunction) => {
     // Check if freetId query parameter was supplied
     req.params.freetId = String(req.query.freetId);
