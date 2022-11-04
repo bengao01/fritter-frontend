@@ -9,7 +9,7 @@ import * as util from './util';
 const router = express.Router();
 
 /**
- * Get number of downvotes on a Freet by freetId.
+ * Get the downvote corresponding to the user and freetId
  *
  * @name GET /api/downvotes?freetId=id
  *
@@ -20,6 +20,45 @@ const router = express.Router();
  */
 router.get(
   '/',
+  async (req: Request, res: Response, next: NextFunction) => {
+    // Check if freetId query parameter was supplied
+    req.params.freetId = String(req.query.freetId);
+    console.log(req.params);
+    console.log(req.query)
+    if (req.query.freetId !== undefined) {
+      next();
+      return;
+    }
+    
+    res.status(400).json({
+        error: {
+          missingQueryField: `Need to pass a freetID with this request.`
+        }
+      });
+  },
+  [
+    userValidator.isUserLoggedIn,
+    freetValidator.isFreetExists,
+    downvoteValidator.isDownvoteExists
+  ],
+  async (req: Request, res: Response) => {
+    const downvotes = await DownvoteCollection.findOne(req.session.userId, req.params.freetId as string);
+    res.status(200).json({"downvote": downvotes});
+  }
+);
+
+/**
+ * Get number of downvotes on a Freet by freetId.
+ *
+ * @name GET /api/downvotes/count?freetId=id
+ *
+ * @return {DownvoteResponse[]} - An array of downvotes associated with id, freetId
+ * @throws {400} - If freetId is not given
+ * @throws {404} - If no freet has given freetId
+ *
+ */
+ router.get(
+  '/count',
   async (req: Request, res: Response, next: NextFunction) => {
     // Check if freetId query parameter was supplied
     req.params.freetId = String(req.query.freetId);
