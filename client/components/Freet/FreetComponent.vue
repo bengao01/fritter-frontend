@@ -63,6 +63,23 @@
         >
           Remove Downvote
         </button>
+        <div
+          v-if="$store.state.username"
+          class="actions"
+        >
+          <button 
+          v-if="!followed && this.freet.author != $store.state.username"
+          @click="addFollow"
+          >
+            Follow
+          </button>
+          <button 
+            v-if="followed"
+            @click="removeFollow"
+          >
+            Unfollow
+          </button>
+        </div>
       </div>
     </header>
     <textarea
@@ -112,19 +129,34 @@ export default {
           // setTimeout(() => this.$delete(this.alerts, params.message), 3000);
         }
       };
-    this.requestLike(params);
-    this.requestDownvote(params);
+    // If the user is logged in, we want to see if they have liked or downvoted the Freets
+    if (this.$store.state.username != null) {
+      this.requestLike(params);
+      this.requestDownvote(params);
+      this.setFollowing();
+    }
   },
   data() {
     return {
       liked: false,
       downvoted: false,
+      followed: false,
       editing: false, // Whether or not this freet is in edit mode
       draft: this.freet.content, // Potentially-new content for this freet
       alerts: {} // Displays success/error messages encountered during freet modification
     };
   },
   methods: {
+    setFollowing() {
+      console.log("Stored following value:", this.$store.state.following);
+      // If the current user is already following the owner of this Freet,
+      const author = this.freet.author;
+      this.followed = this.$store.state.following.some(function(element, index) {
+        return element.followee === author;
+      });
+      console.log("freet is:", this.freet.author);
+      console.log("followed value in setFollowing method:", this.followed);
+    },
     startEditing() {
       /**
        * Enables edit mode on this freet.
@@ -224,6 +256,31 @@ export default {
         }
       };
       this.requestDownvote(params);
+    },
+    addFollow() {
+      const params = {
+        method: 'POST',
+        callback: () => {
+          this.$store.commit('alert', {
+            message: 'Successfully added follow!!', status: 'success'
+          });
+          this.followed = true;
+        },
+        body: JSON.stringify({"follower" : this.$store.state.username, "followee" : this.freet.author})
+      };
+      this.requestFollow(params);
+    },
+    removeFollow() {
+      const params = {
+        method: 'DELETE',
+        callback: () => {
+          this.$store.commit('alert', {
+            message: 'Successfully removed follow!', status: 'success'
+          });
+          this.followed = false;
+        }
+      };
+      this.requestFollow(params);
     },
     async request(params) {
       /**
@@ -328,6 +385,51 @@ export default {
         } else if (options.method === "GET") {
           // Downvote exists so we can show the user downvoted this
           this.downvoted = true;
+        }
+
+        params.callback();
+      } catch (e) {
+        console.log("error in downvote request:", e)
+      }
+    },
+    async requestFollow(params) {
+      /**
+       * Submits a request to the follow endpoint
+       * @param params - Options for the request
+       * @param params.body - Body for the request, if it exists
+       * @param params.callback - Function to run if the the request succeeds
+       */
+      const options = {
+        method: params.method, headers: {'Content-Type': 'application/json'}
+      };
+      if (params.body) {
+        options.body = params.body;
+      }
+
+      try {
+        let r;
+        if(options.method === "POST") {
+          console.log(options);
+          r = await fetch(`/api/follow`, options);
+        } else if (options.method === "DELETE") {
+          console.log(options);
+
+          r = await fetch(`/api/follow?follower=${this.$store.state.username}&followee=${this.freet.author}`, options);
+        }
+        if (!r.ok) {
+          // Follow request failed
+          // Reinitialize what the followed variable is and refresh follows
+          const res = await r.json();
+          console.log("Failed to make request to follow endpoint", res.error);
+
+          this.$store.commit("refreshFollowing");
+          this.$store.commit("refreshFollowers");
+          this.setFollowing();
+        } else if (options.method === "POST" || options.method === "DELETE") {
+          // Follow was successfully added or removed, so we can reinitialize the followed variable and update our following state
+          this.$store.commit("refreshFollowing");
+          this.$store.commit("refreshFollowers");
+          this.setFollowing();
         }
 
         params.callback();
