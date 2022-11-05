@@ -11,9 +11,7 @@ const isArticleExists = async (req: Request, res: Response, next: NextFunction) 
   const article = validFormat ? await ArticleCollection.findOne(req.params.articleId) : '';
   if (!article) {
     res.status(404).json({
-      error: {
-        articleNotFound: `Article with article ID ${req.params.articleId} does not exist.`
-      }
+      error: `Article with article ID ${req.params.articleId} does not exist.`
     });
     return;
   }
@@ -29,9 +27,7 @@ const isArticleExists = async (req: Request, res: Response, next: NextFunction) 
   const user = await UserCollection.findOneByUsername("admin");
   if (userId != user._id.toString()) {
     res.status(404).json({
-      error: {
-        insufficientPermissions: `User needs to be an admin user to modify articles.`
-      }
+      error: `User needs to be an admin user to modify articles.`
     });
     return;
   }

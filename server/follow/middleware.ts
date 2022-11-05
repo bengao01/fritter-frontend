@@ -14,9 +14,7 @@ const isFollowNotExists = async (req: Request, res: Response, next: NextFunction
   // Either follower or followee don't exist as usernames in the DB
   if (!follower || !followee){
     res.status(403).json({
-      error: {
-        userNotFound: `Users associated with username ${req.query.follower as string} or username ${req.query.followee as string} don't exist.`
-      }
+      error: `Users associated with username ${req.query.follower as string} or username ${req.query.followee as string} don't exist.`
     });
     return;
   }
@@ -28,9 +26,7 @@ const isFollowNotExists = async (req: Request, res: Response, next: NextFunction
 
   if (follow) {
     res.status(403).json({
-      error: {
-        followFound: `Follow associated with follower ID ${follower._id} and followee ID ${followee._id} already exists.`
-      }
+      error: `Follow associated with follower ID ${follower._id} and followee ID ${followee._id} already exists.`
     });
     return;
   }
@@ -48,9 +44,7 @@ const isFollowNotExists = async (req: Request, res: Response, next: NextFunction
   // Either follower or followee don't exist as usernames in the DB
   if (!follower || !followee){
     res.status(403).json({
-      error: {
-        userNotFound: `Users associated with username ${req.query.follower as string} or username ${req.query.followee as string} don't exist.`
-      }
+      error: `Users associated with username ${req.query.follower as string} or username ${req.query.followee as string} don't exist.`
     });
     return;
   }
@@ -61,9 +55,7 @@ const isFollowNotExists = async (req: Request, res: Response, next: NextFunction
   const follow = await FollowCollection.findOne(follower._id, followee._id);
   if (!follow) {
     res.status(403).json({
-      error: {
-        followNotFound: `Follow associated with follower ID ${follower._id} and followee ID ${followee._id} doesn't exist.`
-      }
+      error: `Follow associated with follower ID ${follower._id} and followee ID ${followee._id} doesn't exist.`
     });
     return;
   }

@@ -12,9 +12,7 @@ const isDownvoteNotExists = async (req: Request, res: Response, next: NextFuncti
   const downvote = validFormat ? await DownvoteCollection.findOne(req.session.userId, req.body.freetId) : '';
   if (downvote) {
     res.status(403).json({
-      error: {
-        downvoteFound: `Downvote associated with user ID ${req.session.userId} and freet ID ${req.body.freetId} already exists.`
-      }
+      error: `Downvote associated with user ID ${req.session.userId} and freet ID ${req.body.freetId} already exists.`
     });
     return;
   }
@@ -30,9 +28,7 @@ const isDownvoteNotExists = async (req: Request, res: Response, next: NextFuncti
   const downvote = validFormat ? await DownvoteCollection.findOne(req.session.userId, req.params.freetId) : '';
   if (!downvote) {
     res.status(403).json({
-      error: {
-        downvoteNotFound: `Downvote associated with user ID ${req.session.userId} and freet ID ${req.query.freetId} doesn't exists.`
-      }
+      error: `Downvote associated with user ID ${req.session.userId} and freet ID ${req.query.freetId} doesn't exists.`
     });
     return;
   }

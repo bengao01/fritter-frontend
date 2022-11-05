@@ -12,9 +12,7 @@ const isLikeNotExists = async (req: Request, res: Response, next: NextFunction) 
   const like = validFormat ? await LikeCollection.findOne(req.session.userId, req.body.freetId) : '';
   if (like) {
     res.status(403).json({
-      error: {
-        likeFound: `Like associated with user ID ${req.session.userId} and freet ID ${req.body.freetId} already exists.`
-      }
+      error: `Like associated with user ID ${req.session.userId} and freet ID ${req.body.freetId} already exists.`
     });
     return;
   }
@@ -30,9 +28,7 @@ const isLikeNotExists = async (req: Request, res: Response, next: NextFunction) 
   const like = validFormat ? await LikeCollection.findOne(req.session.userId, req.params.freetId) : '';
   if (!like) {
     res.status(403).json({
-      error: {
-        likeNotFound: `Like associated with user ID ${req.session.userId} and freet ID ${req.query.freetId} doesn't exists.`
-      }
+      error: `Like associated with user ID ${req.session.userId} and freet ID ${req.query.freetId} doesn't exists.`
     });
     return;
   }

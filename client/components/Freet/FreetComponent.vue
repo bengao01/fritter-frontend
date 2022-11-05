@@ -207,7 +207,7 @@ export default {
           this.$store.commit('alert', {
             message: 'Successfully added downvote!', status: 'success'
           });
-          this.liked = true;
+          this.downvoted = true;
         },
         body: JSON.stringify({"freetId" : this.freet._id})
       };
@@ -220,7 +220,7 @@ export default {
           this.$store.commit('alert', {
             message: 'Successfully removed downvote!', status: 'success'
           });
-          this.liked = false;
+          this.downvoted = false;
         }
       };
       this.requestDownvote(params);
@@ -285,7 +285,7 @@ export default {
           const res = await r.json();
           // console.log("res is:", res);
           // console.log("res.error is:", res.error);
-          // throw new Error(res.error);
+          throw new Error(res.error);
         } else if (options.method === "GET") {
           // Like exists so we can show the user liked this
           this.liked = true;
@@ -293,7 +293,7 @@ export default {
 
         params.callback();
       } catch (e) {
-        console.log("e is", e.message);
+        console.log("e is", e);
         // if (e.likeFound){
         //   this.$set(this.alerts, e.likeFound, 'error');
         // } else if(e.likeNotFound) {
@@ -301,8 +301,8 @@ export default {
         // } else{
         //   this.$set(this.alerts, e, 'error');
         // }
-        // this.$set(this.alerts, e, 'error');
-        // setTimeout(() => this.$delete(this.alerts, e), 3000);
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
     },
     async requestDownvote(params) {
@@ -336,16 +336,23 @@ export default {
           }
           const res = await r.json();
           // console.log("res is:", res);
-          // console.log("res.error is:", res.error);
-          // throw new Error(res.error);
+          console.log("res.error is:", res.error);
+          // this.$set(this.alerts, res.error.downvoteNotFound, 'error');
+          // setTimeout(() => this.$delete(this.alerts, e), 3000);
+          throw new Error(res.error);
         } else if (options.method === "GET") {
-          // Like exists so we can show the user liked this
+          // Downvote exists so we can show the user downvoted this
           this.downvoted = true;
         }
 
         params.callback();
       } catch (e) {
-        console.log("e is", e.message);
+        console.log(e);
+        console.log("e stringify  is", JSON.stringify(e));
+
+          // this.$set(this.alerts, e.downvoteNotFound, 'error');
+          // setTimeout(() => this.$delete(this.alerts, e), 3000);
+
         // if (e.likeFound){
         //   this.$set(this.alerts, e.likeFound, 'error');
         // } else if(e.likeNotFound) {
