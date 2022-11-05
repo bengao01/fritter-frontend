@@ -68,6 +68,10 @@ export default {
   components: {FreetComponent, GetFreetsForm, CreateFreetForm},
   mounted() {
     this.$refs.getFreetsForm.submit();
+    this.$store.commit("refreshFollowers");
+    this.$store.commit("refreshFollowing");
+    console.log("followers:", this.$store.state.followers);
+    console.log("following:", this.$store.state.following);
   }
 };
 </script>

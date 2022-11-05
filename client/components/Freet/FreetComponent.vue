@@ -283,8 +283,6 @@ export default {
             this.liked = false;
           }
           const res = await r.json();
-          // console.log("res is:", res);
-          // console.log("res.error is:", res.error);
           throw new Error(res.error);
         } else if (options.method === "GET") {
           // Like exists so we can show the user liked this
@@ -293,16 +291,7 @@ export default {
 
         params.callback();
       } catch (e) {
-        console.log("e is", e);
-        // if (e.likeFound){
-        //   this.$set(this.alerts, e.likeFound, 'error');
-        // } else if(e.likeNotFound) {
-        //   this.$set(this.alerts, e.likeNotFound, 'error');
-        // } else{
-        //   this.$set(this.alerts, e, 'error');
-        // }
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
+        console.log("error in like request:", e)
       }
     },
     async requestDownvote(params) {
@@ -336,10 +325,6 @@ export default {
           }
           const res = await r.json();
           // console.log("res is:", res);
-          console.log("res.error is:", res.error);
-          // this.$set(this.alerts, res.error.downvoteNotFound, 'error');
-          // setTimeout(() => this.$delete(this.alerts, e), 3000);
-          throw new Error(res.error);
         } else if (options.method === "GET") {
           // Downvote exists so we can show the user downvoted this
           this.downvoted = true;
@@ -347,21 +332,7 @@ export default {
 
         params.callback();
       } catch (e) {
-        console.log(e);
-        console.log("e stringify  is", JSON.stringify(e));
-
-          // this.$set(this.alerts, e.downvoteNotFound, 'error');
-          // setTimeout(() => this.$delete(this.alerts, e), 3000);
-
-        // if (e.likeFound){
-        //   this.$set(this.alerts, e.likeFound, 'error');
-        // } else if(e.likeNotFound) {
-        //   this.$set(this.alerts, e.likeNotFound, 'error');
-        // } else{
-        //   this.$set(this.alerts, e, 'error');
-        // }
-        // this.$set(this.alerts, e, 'error');
-        // setTimeout(() => this.$delete(this.alerts, e), 3000);
+        console.log("error in downvote request:", e)
       }
     }
   }
