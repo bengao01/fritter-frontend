@@ -46,7 +46,6 @@ const constructFollowResponse = (Follow: HydratedDocument<Follow>): FollowRespon
     })
   };
   const freets = await FreetCollection.findAllByUsername(FollowCopy.followeeId.username);
-
   const user = await UserCollection.findOneByUsername(FollowCopy.followerId.username);
   
   // If user wants to depolarize, only return freets with more likes than downvotes

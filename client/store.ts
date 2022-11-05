@@ -13,6 +13,7 @@ const store = new Vuex.Store({
     freets: [], // All freets created in the app
     username: null, // Username of the logged in user
     alerts: {}, // global success/error messages encountered during submissions to non-visible forms
+    feed: [],
     followers: [],
     following: [],
     articles: []
@@ -103,6 +104,26 @@ const store = new Vuex.Store({
       } else {
         state.followers = [];
       }
+    },
+    updateFeed(state, feed) {
+      /**
+       * Update the list of freets in the user's feed
+       * @param feed - list of freets to store in the feed
+       */
+       if (state.username != null) {
+        state.feed = feed;
+      } else {
+        state.feed = [];
+      }
+    },
+    async refreshFeed(state, username) {
+      /**
+       * Request the server for the user's feed
+       */
+      const url = `/api/follow/feed?user=${username}`;
+      const res = await fetch(url).then(async r => r.json());
+      state.feed = res;
+      console.log("feed is:", res);
     },
   },
   // Store data across page refreshes, only discard on browser close

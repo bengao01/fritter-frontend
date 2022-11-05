@@ -2,30 +2,14 @@
 
 <template>
     <main>
-      <section v-if="$store.state.username">
+      <section v-if="$route.params.username">
         <header>
-          <h2>Welcome @{{ $store.state.username }}</h2>
+          <h2>Welcome @{{ $route.params.username }}</h2>
         </header>
-        <CreateFreetForm />
-      </section>
-      <section v-else>
-        <header>
-          <h2>Welcome to Fritter!</h2>
-        </header>
-        <article>
-          <h3>
-            <router-link to="/login">
-              Sign in
-            </router-link>
-            to create, edit, and delete freets.
-          </h3>
-        </article>
-      </section>
-      <section>
         <header>
           <div class="left">
             <h2>
-              Viewing all freets
+              Viewing {{ $route.params.username }}'s feed
               <span v-if="$store.state.filter">
                 by @{{ $store.state.filter }}
               </span>
@@ -41,10 +25,10 @@
           </div>
         </header>
         <section
-          v-if="$store.state.freets.length"
+          v-if="$store.state.feed.length"
         >
           <FreetComponent
-            v-for="freet in $store.state.freets"
+            v-for="freet in $store.state.feed"
             :key="freet.id"
             :freet="freet"
           />
@@ -60,16 +44,17 @@
   
   <script>
   import FreetComponent from '@/components/Freet/FreetComponent.vue';
-  import CreateFreetForm from '@/components/Freet/CreateFreetForm.vue';
   import GetFreetsForm from '@/components/Freet/GetFreetsForm.vue';
   
   export default {
     name: 'FreetPage',
-    components: {FreetComponent, GetFreetsForm, CreateFreetForm},
+    components: {FreetComponent, GetFreetsForm},
     mounted() {
-      this.$refs.getFreetsForm.submit();
+      this.$store.commit("refreshFeed", this.$route.params.username);
       this.$store.commit("refreshFollowers");
       this.$store.commit("refreshFollowing");
+      console.log("feed:", this.$store.state.feed);
+      console.log("freets:", this.$store.state.freets);
       console.log("followers:", this.$store.state.followers);
       console.log("following:", this.$store.state.following);
     }

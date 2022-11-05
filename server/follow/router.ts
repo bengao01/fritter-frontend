@@ -5,6 +5,7 @@ import UserCollection from '../user/collection';
 import * as userValidator from '../user/middleware';
 import * as followValidator from './middleware';
 import * as util from './util';
+import * as freetUtil from '../freet/util';
 
 const router = express.Router();
 
@@ -104,13 +105,14 @@ router.get(
   },
   [userValidator.isUserLoggedIn],
   async (req: Request, res: Response) => {
-    const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
-    console.log("userId:", userId);
-    const follows = await FollowCollection.getAllFollowing(userId);
+    console.log("user's feed we are fetching:", req.query.user);
+    const user = await UserCollection.findOneByUsername(req.query.user as string);
+    const follows = await FollowCollection.getAllFollowing(user._id);
     console.log("follows", follows);
     const freets = await Promise.all(follows.map(util.getUserFreets));
-    console.log("return value is:", freets);
-    res.status(200).json(freets);
+    const result = freets.flat().map(freetUtil.constructFreetResponse);
+    console.log("return value is:", result);
+    res.status(200).json(result);
   }
 );
 

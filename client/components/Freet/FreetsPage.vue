@@ -72,6 +72,7 @@ export default {
     this.$store.commit("refreshFollowing");
     console.log("followers:", this.$store.state.followers);
     console.log("following:", this.$store.state.following);
+    console.log("freets", this.$store.state.freets);
   }
 };
 </script>
