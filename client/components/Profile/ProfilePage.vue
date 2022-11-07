@@ -24,6 +24,20 @@
             />
           </div>
         </header>
+        <div class="follow">
+          <div class="left">
+            {{ this.$store.state.followers.length }} {{ this.$store.state.followers.length == 1 ? "Follower" : "Followers"}}
+          </div>
+          <div class="right">
+            {{ this.$store.state.following.length }} {{ "Following"}}
+
+          </div>
+        </div>
+
+        <div>
+          Depolarize value: {{this.$store.state.depolarize}}
+        </div>
+
         <section
           v-if="$store.state.feed.length"
         >
@@ -36,7 +50,7 @@
         <article
           v-else
         >
-          <h3>No freets found.</h3>
+          <h3>{{ $route.params.username }}'s feed is empty.</h3>
         </article>
       </section>
     </main>
@@ -49,14 +63,14 @@
   export default {
     name: 'FreetPage',
     components: {FreetComponent, GetFreetsForm},
-    mounted() {
+    created() {
       this.$store.commit("refreshFeed", this.$route.params.username);
-      this.$store.commit("refreshFollowers");
-      this.$store.commit("refreshFollowing");
+      this.$store.commit("refreshFollowers", this.$route.params.username);
+      this.$store.commit("refreshFollowing", this.$route.params.username);
       console.log("feed:", this.$store.state.feed);
       console.log("freets:", this.$store.state.freets);
-      console.log("followers:", this.$store.state.followers);
-      console.log("following:", this.$store.state.following);
+      console.log("profile followers:", this.$store.state.followers);
+      console.log("profile following:", this.$store.state.following);
     }
   };
   </script>
@@ -81,6 +95,12 @@
     flex: 1 0 50vh;
     padding: 3%;
     overflow-y: scroll;
+  }
+
+  .follow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
   }
   </style>
   

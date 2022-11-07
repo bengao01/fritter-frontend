@@ -66,10 +66,11 @@ import GetFreetsForm from '@/components/Freet/GetFreetsForm.vue';
 export default {
   name: 'FreetPage',
   components: {FreetComponent, GetFreetsForm, CreateFreetForm},
-  mounted() {
+  // Needs to be created instead of mounted otherwise the individual Freets get incorrect followed values
+  created() {
     this.$refs.getFreetsForm.submit();
-    this.$store.commit("refreshFollowers");
-    this.$store.commit("refreshFollowing");
+    this.$store.commit("refreshFollowers", this.$store.state.username);
+    this.$store.commit("refreshFollowing", this.$store.state.username);
     console.log("followers:", this.$store.state.followers);
     console.log("following:", this.$store.state.following);
     console.log("freets", this.$store.state.freets);

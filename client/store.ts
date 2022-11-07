@@ -16,7 +16,8 @@ const store = new Vuex.Store({
     feed: [],
     followers: [],
     following: [],
-    articles: []
+    articles: [],
+    depolarize: null
   },
   mutations: {
     alert(state, payload) {
@@ -34,6 +35,13 @@ const store = new Vuex.Store({
        * @param username - new username to set
        */
       state.username = username;
+    },
+    setDepolarize(state, depolarize) {
+      /**
+       * Update the stored depolarize value to the specified one.
+       * @param depolarize - new depolarize to set
+       */
+      state.depolarize = depolarize;
     },
     updateFilter(state, filter) {
       /**
@@ -68,13 +76,13 @@ const store = new Vuex.Store({
         state.following = [];
       }
     },
-    async refreshFollowing(state) {
+    async refreshFollowing(state, username) {
       /**
        * Request the server for the users the current logged in user is following.
        */
       // If the user is logged in, make the request and update. Otherwise, set following users list to empty
       if (state.username != null) {
-        const url = `/api/follow/following?user=${state.username}`;
+        const url = `/api/follow/following?user=${username}`;
         const res = await fetch(url).then(async r => r.json());
         state.following = res;
       } else {
@@ -92,13 +100,13 @@ const store = new Vuex.Store({
         state.followers = [];
       }
     },
-    async refreshFollowers(state) {
+    async refreshFollowers(state, username) {
       /**
        * Request the server for the users the current logged in user is following.
        */
       // If the user is logged in, make the request and update. Otherwise, set following users list to empty
       if (state.username != null) {
-        const url = `/api/follow/followers?followee=${state.username}`;
+        const url = `/api/follow/followers?followee=${username}`;
         const res = await fetch(url).then(async r => r.json());
         state.followers = res;
       } else {
@@ -124,6 +132,7 @@ const store = new Vuex.Store({
       const res = await fetch(url).then(async r => r.json());
       state.feed = res;
       console.log("feed is:", res);
+      console.log("feed fetched for", username);
     },
   },
   // Store data across page refreshes, only discard on browser close

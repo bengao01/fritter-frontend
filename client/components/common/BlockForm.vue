@@ -97,6 +97,8 @@ export default {
           const text = await r.text();
           const res = text ? JSON.parse(text) : {user: null};
           this.$store.commit('setUsername', res.user ? res.user.username : null);
+          // Also set the depolarize value for the user
+          this.$store.commit('setDepolarize', res.user ? res.user.depolarize : null);
         }
 
         if (this.refreshFreets) {
