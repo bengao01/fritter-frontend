@@ -66,7 +66,7 @@
   export default {
     name: 'FreetPage',
     components: {FreetComponent, GetFreetsForm},
-    created() {
+    mounted() {
       this.$store.commit("refreshFeed", this.$route.params.username);
       this.$store.commit("refreshFollowers", this.$route.params.username);
       this.$store.commit("refreshFollowing", this.$route.params.username);

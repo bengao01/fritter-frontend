@@ -68,13 +68,13 @@
           class="actions"
         >
           <button 
-          v-if="!followed && this.freet.author != $store.state.username"
+          v-if="!following && this.freet.author != $store.state.username"
           @click="addFollow"
           >
             Follow
           </button>
           <button 
-            v-if="followed"
+            v-if="following && this.freet.author != $store.state.username"
             @click="removeFollow"
           >
             Unfollow
@@ -134,7 +134,6 @@ export default {
       this.requestLike(params);
       this.requestDownvote(params);
       this.setFollowing();
-      console.log("setting following");
     }
   },
   data() {
@@ -142,7 +141,7 @@ export default {
       liked: null,
       downvoted: null,
       likeCount: null,
-      followed: false,
+      following: false,
       editing: false, // Whether or not this freet is in edit mode
       draft: this.freet.content, // Potentially-new content for this freet
       alerts: {} // Displays success/error messages encountered during freet modification
@@ -150,14 +149,12 @@ export default {
   },
   methods: {
     setFollowing() {
-      console.log("Stored following value:", this.$store.state.following);
       // If the current user is already following the owner of this Freet,
       const author = this.freet.author;
-      this.followed = this.$store.state.following.some(function(element, index) {
-        return element.followee === author;
+      this.following = this.$store.state.following.some(follow => {
+        return follow.followee === author;
       });
-      console.log("freet is:", this.freet.author);
-      console.log("followed value in setFollowing method:", this.followed);
+      console.log("followed value in setFollowing method:", this.following);
     },
     startEditing() {
       /**
@@ -266,7 +263,7 @@ export default {
           this.$store.commit('alert', {
             message: 'Successfully added follow!!', status: 'success'
           });
-          this.followed = true;
+          this.following = true;
         },
         body: JSON.stringify({"follower" : this.$store.state.username, "followee" : this.freet.author})
       };
@@ -279,7 +276,7 @@ export default {
           this.$store.commit('alert', {
             message: 'Successfully removed follow!', status: 'success'
           });
-          this.followed = false;
+          this.following = false;
         }
       };
       this.requestFollow(params);
@@ -420,15 +417,35 @@ export default {
         }
         if (!r.ok) {
           // Follow request failed
-          // Reinitialize what the followed variable is and refresh follows
           const res = await r.json();
           console.log("Failed to make request to follow endpoint", res.error);
-        } 
-        this.$store.commit("refreshFollowing", this.$store.state.username);
-        this.$store.commit("refreshFollowers", this.$store.state.username);
-        this.setFollowing();
+          this.$store.commit("refreshFollowing", this.$store.state.username);
+          this.$store.commit("refreshFollowers", this.$store.state.username);
+        } else {
+          if (options.method === "POST") {
+            const res = await r.json();
+            console.log("resulting follow response is: ", res.follow);
+            let copyOfFollowing = this.$store.state.following;
+            copyOfFollowing.push(res.follow);
+            this.$store.commit("updateFollowing", copyOfFollowing)
+            console.log("updated following value is:", this.$store.state.following);
+            this.setFollowing();
 
-        params.callback();
+            params.callback();
+          } else if (options.method === "DELETE") {
+            const res = await r.json();
+            console.log("resulting follow response is: ", res.follow);
+            let removedFollowing = this.$store.state.following.filter(follow => {
+              return follow.followee !== this.freet.author;
+            });
+            console.log("resulting following array without old follow is:", removedFollowing)
+            this.$store.commit("updateFollowing", removedFollowing)
+            console.log("updated following value is:", this.$store.state.following);
+            this.setFollowing();
+
+            params.callback();
+          }
+        }
       } catch (e) {
         console.log("error in downvote request:", e)
       }

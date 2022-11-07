@@ -67,12 +67,12 @@ export default {
   name: 'FreetPage',
   components: {FreetComponent, GetFreetsForm, CreateFreetForm},
   // Needs to be created instead of mounted otherwise the individual Freets get incorrect followed values
-  created() {
+  mounted() {
     this.$refs.getFreetsForm.submit();
     this.$store.commit("refreshFollowers", this.$store.state.username);
     this.$store.commit("refreshFollowing", this.$store.state.username);
-    console.log("followers:", this.$store.state.followers);
-    console.log("following:", this.$store.state.following);
+    console.log("followers when mounted:", this.$store.state.followers);
+    console.log("following when mounted:", this.$store.state.following);
     console.log("freets", this.$store.state.freets);
   }
 };

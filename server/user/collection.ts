@@ -78,7 +78,7 @@ class UserCollection {
       user.username = userDetails.username;
     }
 
-    if (userDetails.depolarize) {
+    if (userDetails.depolarize != null) {
       user.depolarize = userDetails.depolarize;
     }
 
