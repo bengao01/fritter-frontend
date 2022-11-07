@@ -79,7 +79,7 @@ class UserCollection {
     }
 
     if (userDetails.depolarize) {
-      user.depolarize = userDetails.depolarize as boolean;
+      user.depolarize = userDetails.depolarize;
     }
 
     await user.save();

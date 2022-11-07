@@ -139,6 +139,8 @@ router.patch(
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
     const user = await UserCollection.updateOne(userId, req.body);
+    console.log("depolarize value in router is:", req.body.depolarize);
+
     res.status(200).json({
       message: 'Your profile was updated successfully.',
       user: util.constructUserResponse(user)
