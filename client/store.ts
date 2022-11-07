@@ -113,6 +113,14 @@ const store = new Vuex.Store({
         state.followers = [];
       }
     },
+    async refreshArticles(state) {
+      /**
+       * Request the server for the users the current logged in user is following.
+       */
+      const url = `/api/article`;
+      const res = await fetch(url).then(async r => r.json());
+      state.articles = res;
+    },
     updateFeed(state, feed) {
       /**
        * Update the list of freets in the user's feed

@@ -120,7 +120,7 @@ export default {
       required: true
     }
   },
-  created() {
+  mounted() {
     const params = {
         method: 'GET',
         message: 'Successfully fetched object!',
@@ -423,16 +423,10 @@ export default {
           // Reinitialize what the followed variable is and refresh follows
           const res = await r.json();
           console.log("Failed to make request to follow endpoint", res.error);
-
-          this.$store.commit("refreshFollowing", this.$store.state.username);
-          this.$store.commit("refreshFollowers", this.$store.state.username);
-          this.setFollowing();
-        } else if (options.method === "POST" || options.method === "DELETE") {
-          // Follow was successfully added or removed, so we can reinitialize the followed variable and update our following state
-          this.$store.commit("refreshFollowing", this.$store.state.username);
-          this.$store.commit("refreshFollowers", this.$store.state.username);
-          this.setFollowing();
-        }
+        } 
+        this.$store.commit("refreshFollowing", this.$store.state.username);
+        this.$store.commit("refreshFollowers", this.$store.state.username);
+        this.setFollowing();
 
         params.callback();
       } catch (e) {

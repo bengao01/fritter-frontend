@@ -77,7 +77,7 @@ router.delete(
 /**
  * Modify a article
  *
- * @name PUT /api/articles/:id
+ * @name PATCH /api/articles/:id
  *
  * @param {string} content - the new content for the article
  * @param {string} title - the new title for the article
@@ -85,7 +85,7 @@ router.delete(
  * @throws {403} - if the user is not logged in or not an admin user
  * @throws {404} - If the articleId is not valid
  */
-router.put(
+router.patch(
   '/:articleId?',
   [
     articleValidator.isArticleExists,
