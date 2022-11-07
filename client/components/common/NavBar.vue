@@ -20,6 +20,9 @@
       >
         Profile
       </router-link>
+      <router-link to="/news">
+        News
+      </router-link>
       <router-link
         v-if="$store.state.username"
         to="/account"
