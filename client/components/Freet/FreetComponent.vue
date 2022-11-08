@@ -98,6 +98,9 @@
       Posted at {{ freet.dateModified }}
       <i v-if="freet.edited">(edited)</i>
     </p>
+    <p class="info">
+      {{ this.likeCount }} {{ this.likeCount === 1 ? "like" : "likes"}}
+    </p>
     <section class="alerts">
       <article
         v-for="(status, alert, index) in alerts"
@@ -133,6 +136,7 @@ export default {
     if (this.$store.state.username != null) {
       this.requestLike(params);
       this.requestDownvote(params);
+      this.getLikeCount();
       this.setFollowing();
     }
   },
@@ -140,7 +144,7 @@ export default {
     return {
       liked: null,
       downvoted: null,
-      likeCount: null,
+      likeCount: 0,
       following: false,
       editing: false, // Whether or not this freet is in edit mode
       draft: this.freet.content, // Potentially-new content for this freet
@@ -281,6 +285,18 @@ export default {
       };
       this.requestFollow(params);
     },
+    getLikeCount() {
+      const params = {
+        method: 'GET',
+        callback: () => {
+          this.$store.commit('alert', {
+            message: 'Successfully retrieved like count', status: 'success'
+          });
+          this.following = false;
+        }
+      };
+      this.requestLikeCount(params);
+    },
     async request(params) {
       /**
        * Submits a request to the freet's endpoint
@@ -330,8 +346,12 @@ export default {
         if(options.method === "POST") {
           console.log(options);
           r = await fetch(`/api/likes`, options);
+          this.likeCount = this.likeCount + 1;
+
         } else if (options.method === "DELETE" || options.method === "GET") {
           r = await fetch(`/api/likes?freetId=${this.freet._id}`, options);
+          this.likeCount = this.likeCount - 1;
+
         }
         if (!r.ok) {
           if(options.method === "GET"){
@@ -445,6 +465,40 @@ export default {
 
             params.callback();
           }
+        }
+      } catch (e) {
+        console.log("error in downvote request:", e)
+      }
+    },
+    async requestLikeCount(params) {
+      /**
+       * Submits a request to the follow endpoint
+       * @param params - Options for the request
+       * @param params.body - Body for the request, if it exists
+       * @param params.callback - Function to run if the the request succeeds
+       */
+      const options = {
+        method: params.method, headers: {'Content-Type': 'application/json'}
+      };
+      if (params.body) {
+        options.body = params.body;
+      }
+
+      try {
+        let r;
+        console.log(options);
+        r = await fetch(`/api/likes/count?freetId=${this.freet._id}`, options);
+
+        if (!r.ok) {
+          // Follow request failed
+          const res = await r.json();
+          console.log("Failed to make request to fetch like count", res.error);
+        } else {
+          const res = await r.json();
+          console.log("resulting like count response is: ", res);
+          this.likeCount = res.likeCount;
+
+          params.callback();
         }
       } catch (e) {
         console.log("error in downvote request:", e)
