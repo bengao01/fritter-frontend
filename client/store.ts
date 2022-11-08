@@ -117,7 +117,7 @@ const store = new Vuex.Store({
       /**
        * Request the server for the users the current logged in user is following.
        */
-      const url = `/api/article`;
+      const url = `/api/articles`;
       const res = await fetch(url).then(async r => r.json());
       state.articles = res;
     },

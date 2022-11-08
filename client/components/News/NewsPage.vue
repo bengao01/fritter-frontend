@@ -4,13 +4,15 @@
         <header>
           <h2>Welcome to the Verified News Page!</h2>
         </header>
+        <CreateArticleForm v-if="$store.state.username === 'admin'"/>
+
       </section>
       <section>
         <section
           v-if="$store.state.articles.length"
         >
           <NewsComponent
-            v-for="freet in $store.state.freets"
+            v-for="article in $store.state.articles"
             :key="article.id"
             :article="article"
           />
@@ -26,12 +28,12 @@
   
   <script>
   import NewsComponent from '@/components/News/NewsComponent.vue';
-  
+  import CreateArticleForm from '@/components/News/CreateArticleForm.vue';
+
   export default {
     name: 'NewsPage',
-    components: {NewsComponent},
-    // Needs to be created instead of mounted otherwise the individual Freets get incorrect followed values
-    created() {
+    components: {NewsComponent, CreateArticleForm},
+    mounted() {
       this.$store.commit("refreshArticles");
       console.log("articles", this.$store.state.articles);
     }
