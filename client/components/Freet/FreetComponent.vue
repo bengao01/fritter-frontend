@@ -549,8 +549,14 @@ button:hover {
 .freetHeaderActions {
   margin: 10px;
   position: relative;
-  top: 10px;
+  top: 12px;
   left: 15px;
+  color: #F5F8FA;
+}
+
+.freetFooterActions {
+  margin-left: -5px;
+  position: relative;
   color: #F5F8FA;
 }
 

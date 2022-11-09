@@ -6,7 +6,7 @@
       <header>
         <h1>Welcome @{{ $store.state.username }}</h1>
       </header>
-      <CreateFreetForm class="freet"/>
+      <CreateFreetForm id="createForm" class="freet"/>
     </section>
     <section v-else>
       <header>
@@ -24,12 +24,12 @@
     <section>
       <header>
         <div class="left">
-          <h2>
+          <h1>
             Viewing all freets
             <span v-if="$store.state.filter">
               by @{{ $store.state.filter }}
             </span>
-          </h2>
+          </h1>
         </div>
         <div class="right">
           <GetFreetsForm
@@ -102,6 +102,10 @@ section .scrollbox {
   flex: 1 0 50vh;
   padding: 3%;
   overflow-y: scroll;
+}
+
+#createForm {
+  margin-bottom: 30px;
 }
 
 

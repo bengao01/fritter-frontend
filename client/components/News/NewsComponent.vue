@@ -6,39 +6,44 @@
       class="article"
     >
       <header>
-        <h3 class="title">
-          {{ article.title }}
-        </h3>
+        <div id="freetHeader">
+          <h3 class="title">
+            {{ article.title }}
+          </h3>
+          <div
+            id = "freetHeaderActions"
+            v-if="$store.state.username === 'admin'"
+            class="actions"
+          >
+            <button
+              v-if="editing"
+              @click="submitEdit"
+            >
+              ✅ Save changes
+            </button>
+            <button
+              v-if="editing"
+              @click="stopEditing"
+            >
+              🚫 Discard changes
+            </button>
+            <button
+              v-if="!editing"
+              @click="startEditing"
+            >
+              ✏️ Edit
+            </button>
+            <button @click="deletearticle">
+              🗑️ Delete
+            </button>
+          </div>
+        </div>
+        
         <p class="info" id="date">
           {{ article.dateModified }}
           <i v-if="article.edited">(edited)</i>
         </p>
-        <div
-          v-if="$store.state.username === 'admin'"
-          class="actions"
-        >
-          <button
-            v-if="editing"
-            @click="submitEdit"
-          >
-            ✅ Save changes
-          </button>
-          <button
-            v-if="editing"
-            @click="stopEditing"
-          >
-            🚫 Discard changes
-          </button>
-          <button
-            v-if="!editing"
-            @click="startEditing"
-          >
-            ✏️ Edit
-          </button>
-          <button @click="deletearticle">
-            🗑️ Delete
-          </button>
-        </div>
+        
       </header>
       <textarea
         v-if="editing"
@@ -173,45 +178,74 @@
           setTimeout(() => this.$delete(this.alerts, e), 3000);
         }
       },
-    //   async getArticle(params) {
-    //     /**
-    //      * Submits a request to the article's endpoint
-    //      * @param params - Options for the request
-    //      * @param params.body - Body for the request, if it exists
-    //      * @param params.callback - Function to run if the the request succeeds
-    //      */
-    //     const options = {
-    //       method: params.method, headers: {'Content-Type': 'application/json'}
-    //     };
-    //     if (params.body) {
-    //       options.body = params.body;
-    //     }
-  
-    //     try {
-    //       const r = await fetch(`/api/articles/${this.article._id}`, options);
-    //       if (!r.ok) {
-    //         const res = await r.json();
-    //         throw new Error(res.error);
-    //       }
-  
-    //       this.editing = false;
-    //       this.$store.commit('refreshArticles');
-  
-    //       params.callback();
-    //     } catch (e) {
-    //       this.$set(this.alerts, e, 'error');
-    //       setTimeout(() => this.$delete(this.alerts, e), 3000);
-    //     }
-    //   },
     }
   };
   </script>
   
-  <style scoped>
-  .article {
-      border: 1px solid #111;
-      padding: 20px;
-      position: relative;
-  }
-  </style>
+<style scoped>
+.article {
+  border: 1px solid #111;
+  border-radius: 25px;
+  padding: 20px;
+  position: relative;
+  margin: 10px;
+}
+
+button {
+  border-radius: 20px;
+  border: .75px solid #111;
+  font-size: medium;
+  padding: 5px;
+  margin: 5px;
+
+  /* hover effects */
+  cursor: pointer;
+  transition-duration: 0.4s;
+}
+
+button:hover {
+  box-shadow: #111;
+  animation: pulse 1s;
+  box-shadow: 0 0 0 2em transparent;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.info {
+  font-size: 1.1em;
+}
+
+.content, textarea {
+  font-size: 1.3em;
+}
+
+.title {
+  font-size: 1.4em;
+}
+
+#date {
+  position: relative;
+  margin-top: 0px;
+  margin-bottom: 20px;
+}
+
+#freetHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+#freetHeaderActions {
+  margin: 10px;
+  position: relative;
+  top: 12px;
+  left: 15px;
+  color: #F5F8FA;
+}
+
+#button {
+  background-color: #1DA1F2;
+  color: #F5F8FA;
+}
+
+
+</style>
   

@@ -22,6 +22,18 @@
             />
           </div>
         </header>
+
+        <div id="depolarize" v-if="$store.state.username === $route.params.username">
+          <div>
+            Depolarize Value: {{this.$store.state.depolarize}}
+          </div>
+          <button 
+            @click="toggleDepolarizeValue"
+          >
+            Toggle Depolarize Value
+          </button>
+        </div>
+
         <div class="follow">
           <div class="left">
             {{ this.$store.state.followers.length }} {{ this.$store.state.followers.length == 1 ? "Follower" : "Followers"}}
@@ -30,15 +42,6 @@
             {{ this.$store.state.following.length }} {{ "Following"}}
 
           </div>
-        </div>
-
-        <div v-if="$store.state.username === $route.params.username">
-          Depolarize value: {{this.$store.state.depolarize}}
-          <button 
-            @click="toggleDepolarizeValue"
-          >
-            {{ this.$store.state.depolarize ? "Turn Off Depolarize Feature" : "Turn On Depolarize Feature"}}
-          </button>
         </div>
 
         <section
@@ -146,7 +149,7 @@
   }
 
   button {
-      margin-right: 10px;
+    margin-right: 10px;
   }
   
   section .scrollbox {
@@ -156,9 +159,18 @@
   }
 
   .follow {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
   }
+
+  #depolarize {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
   </style>
   

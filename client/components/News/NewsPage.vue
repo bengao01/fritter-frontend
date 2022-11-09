@@ -4,7 +4,7 @@
         <header>
           <h2>Welcome to the Verified News Page!</h2>
         </header>
-        <CreateArticleForm v-if="$store.state.username === 'admin'"/>
+        <CreateArticleForm id="createForm" v-if="$store.state.username === 'admin'"/>
 
       </section>
       <section>
@@ -40,30 +40,34 @@
   };
   </script>
   
-  <style scoped>
-  h2 {
-    font-size: 2em;
-  }
+<style scoped>
+h2 {
+  font-size: 2em;
+}
 
-  section {
+section {
+  display: flex;
+  flex-direction: column;
+}
+
+header, header > * {
     display: flex;
-    flex-direction: column;
-  }
-  
-  header, header > * {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-  }
-  
-  button {
-      margin-right: 10px;
-  }
-  
-  section .scrollbox {
-    flex: 1 0 50vh;
-    padding: 3%;
-    overflow-y: scroll;
-  }
-  </style>
+    justify-content: space-between;
+    align-items: center;
+}
+
+button {
+    margin-right: 10px;
+}
+
+section .scrollbox {
+  flex: 1 0 50vh;
+  padding: 3%;
+  overflow-y: scroll;
+}
+
+#createForm {
+  margin-bottom: 60px;
+}
+</style>
   
