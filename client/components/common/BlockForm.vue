@@ -177,7 +177,7 @@ textarea, input {
 
   background-color: #1DA1F2;
   color: #F5F8FA;
-  font-size: large;
+  font-size: 1.2em;
   position: relative;
   left: 40%;
   border-radius: 20px;

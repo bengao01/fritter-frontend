@@ -9,6 +9,10 @@
         <h3 class="title">
           {{ article.title }}
         </h3>
+        <p class="info" id="date">
+          {{ article.dateModified }}
+          <i v-if="article.edited">(edited)</i>
+        </p>
         <div
           v-if="$store.state.username === 'admin'"
           class="actions"

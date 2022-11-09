@@ -16,7 +16,7 @@ type ArticleResponse = {
  * @param {Date} date - A date object
  * @returns {string} - formatted date as string
  */
-const formatDate = (date: Date): string => moment(date).format('MMMM Do YYYY, h:mm:ss a');
+const formatDate = (date: Date): string => moment(date).format('M/DD/YY, h:mm a');
 
 /**
  * Transform a raw Article object from the database into an object

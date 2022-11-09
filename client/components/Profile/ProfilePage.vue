@@ -140,7 +140,11 @@
       justify-content: space-between;
       align-items: center;
   }
-  
+
+  h1 {
+    font-size: 2em;
+  }
+
   button {
       margin-right: 10px;
   }

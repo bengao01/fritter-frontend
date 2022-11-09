@@ -41,6 +41,10 @@
   </script>
   
   <style scoped>
+  h2 {
+    font-size: 2em;
+  }
+
   section {
     display: flex;
     flex-direction: column;
