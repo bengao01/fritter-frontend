@@ -84,6 +84,10 @@ section {
   flex-direction: column;
 }
 
+h1 {
+  font-size: 2em;
+}
+
 header, header > * {
     display: flex;
     justify-content: space-between;
@@ -99,4 +103,6 @@ section .scrollbox {
   padding: 3%;
   overflow-y: scroll;
 }
+
+
 </style>

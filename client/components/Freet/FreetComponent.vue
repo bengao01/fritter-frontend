@@ -6,38 +6,75 @@
     class="freet"
   >
     <header>
-      <h3 class="author">
-        @{{ freet.author }}
-      </h3>
-      <div
+    <div id="freetHeader">
+        <h3 class="author">
+          @{{ freet.author }}
+        </h3>
+        <div
+          v-if="$store.state.username"
+          class="actions freetHeaderActions"
+        >
+          <button id="followButton"
+          v-if="!following && this.freet.author != $store.state.username"
+          @click="addFollow"
+          >
+            Follow
+          </button>
+          <button id="followButton"
+            v-if="following && this.freet.author != $store.state.username"
+            @click="removeFollow"
+          >
+            Unfollow
+          </button>
+        </div>
+        <div
         v-if="$store.state.username === freet.author"
-        class="actions"
-      >
-        <button
-          v-if="editing"
-          @click="submitEdit"
+        class="actions freetHeaderActions"
         >
-          ✅ Save changes
-        </button>
-        <button
-          v-if="editing"
-          @click="stopEditing"
-        >
-          🚫 Discard changes
-        </button>
-        <button
-          v-if="!editing"
-          @click="startEditing"
-        >
-          ✏️ Edit
-        </button>
-        <button @click="deleteFreet">
-          🗑️ Delete
-        </button>
+          <button
+            v-if="editing"
+            @click="submitEdit"
+          >
+            ✅ Save changes
+          </button>
+          <button
+            v-if="editing"
+            @click="stopEditing"
+          >
+            🚫 Discard changes
+          </button>
+          <button
+            v-if="!editing"
+            @click="startEditing"
+          >
+            ✏️ Edit
+          </button>
+          <button @click="deleteFreet">
+            🗑️ Delete
+          </button>
+        </div>
       </div>
-      <div
+      <p class="info" id="date">
+        {{ freet.dateModified }}
+        <i v-if="freet.edited">(edited)</i>
+      </p>
+    </header>
+    <textarea
+      v-if="editing"
+      class="content"
+      :value="draft"
+      @input="draft = $event.target.value"
+    />
+    <p
+      v-else
+      class="content"
+    >
+      {{ freet.content }}
+    </p>
+    
+    <div
         v-if="$store.state.username"
-        class="actions"
+        class="actions freetFooterActions"
       >
         <button 
           v-if="!liked"
@@ -63,41 +100,9 @@
         >
           Remove Downvote
         </button>
-        <div
-          v-if="$store.state.username"
-          class="actions"
-        >
-          <button 
-          v-if="!following && this.freet.author != $store.state.username"
-          @click="addFollow"
-          >
-            Follow
-          </button>
-          <button 
-            v-if="following && this.freet.author != $store.state.username"
-            @click="removeFollow"
-          >
-            Unfollow
-          </button>
-        </div>
+        
       </div>
-    </header>
-    <textarea
-      v-if="editing"
-      class="content"
-      :value="draft"
-      @input="draft = $event.target.value"
-    />
-    <p
-      v-else
-      class="content"
-    >
-      {{ freet.content }}
-    </p>
-    <p class="info">
-      Posted at {{ freet.dateModified }}
-      <i v-if="freet.edited">(edited)</i>
-    </p>
+
     <p class="info">
       {{ this.likeCount }} {{ this.likeCount === 1 ? "like" : "likes"}}
     </p>
@@ -502,6 +507,32 @@ export default {
 </script>
 
 <style scoped>
+
+button {
+  border-radius: 20px;
+  border: .75px solid #111;
+  font-size: medium;
+  padding: 5px;
+  margin: 5px;
+
+  /* hover effects */
+  cursor: pointer;
+  transition-duration: 0.4s;
+}
+
+button:hover {
+  box-shadow: #111;
+  animation: pulse 1s;
+  box-shadow: 0 0 0 2em transparent;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+
+}
+
+#freetHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
 .freet {
     border: 1px solid #111;
     border-radius: 25px;
@@ -509,4 +540,36 @@ export default {
     position: relative;
     margin: 10px;
 }
+
+#followButton {
+  background-color: #1DA1F2;
+  color: #F5F8FA;
+}
+
+.freetHeaderActions {
+  margin: 10px;
+  position: relative;
+  top: 10px;
+  left: 15px;
+  color: #F5F8FA;
+}
+
+.info {
+  font-size: 1.1em;
+}
+
+.content, textarea {
+  font-size: 1.3em;
+}
+
+.author {
+  font-size: 1.4em;
+}
+
+#date {
+  position: relative;
+  margin-top: 0px;
+  margin-bottom: 20px;
+}
+
 </style>

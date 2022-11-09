@@ -33,6 +33,10 @@ export default {
   box-sizing: border-box;
 }
 
+h1 {
+  font-size: 1.5em;
+}
+
 body {
   height: 100vh;
   flex-direction: column;

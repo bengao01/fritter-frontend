@@ -2,7 +2,7 @@
     <main>
       <section v-if="$route.params.username">
         <header>
-          <h2>Welcome @{{ $route.params.username }}</h2>
+          <h1>Welcome @{{ $route.params.username }}</h1>
         </header>
         <header>
           <div class="left">

@@ -133,7 +133,12 @@ form {
   border-radius: 20px;
 }
 
+h3 {
+  font-size: 1.4em;
+}
+
 label {
+  font-size: 1.3em;
   padding: .1em;
   padding-inline: .1em;
 }
@@ -159,9 +164,10 @@ form h3 p {
   margin-right: .2em;
 }
 
-textarea {
+textarea, input {
    font-family: inherit;
    font-size: inherit;
+   border-radius: 20px;
 }
 
 #button {
