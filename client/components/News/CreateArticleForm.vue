@@ -15,7 +15,7 @@ export default {
         {id: 'title', label: 'Title', value: ''},
         {id: 'content', label: 'Content', value: ''},
     ],
-      title: 'Upload a new article',
+      title: 'Upload Article',
       refreshArticles: true,
       callback: () => {
         const message = 'Successfully created a new Article!';

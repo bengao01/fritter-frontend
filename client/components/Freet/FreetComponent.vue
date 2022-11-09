@@ -288,12 +288,6 @@ export default {
     getLikeCount() {
       const params = {
         method: 'GET',
-        callback: () => {
-          this.$store.commit('alert', {
-            message: 'Successfully retrieved like count', status: 'success'
-          });
-          this.following = false;
-        }
       };
       this.requestLikeCount(params);
     },
@@ -498,7 +492,6 @@ export default {
           console.log("resulting like count response is: ", res);
           this.likeCount = res.likeCount;
 
-          params.callback();
         }
       } catch (e) {
         console.log("error in downvote request:", e)
@@ -511,7 +504,9 @@ export default {
 <style scoped>
 .freet {
     border: 1px solid #111;
+    border-radius: 25px;
     padding: 20px;
     position: relative;
+    margin: 10px;
 }
 </style>

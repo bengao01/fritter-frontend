@@ -30,7 +30,7 @@
     <article v-else>
       <p>{{ content }}</p>
     </article>
-    <button
+    <button id="button"
       type="submit"
     >
       {{ title }}
@@ -130,6 +130,12 @@ form {
   justify-content: space-between;
   margin-bottom: 14px;
   position: relative;
+  border-radius: 20px;
+}
+
+label {
+  padding: .1em;
+  padding-inline: .1em;
 }
 
 article > div {
@@ -143,15 +149,46 @@ form > article p {
 
 form h3,
 form > * {
-  margin: 0.3em 0;
+  margin: .3em 0;
+  padding-inline: .75em;
 }
 
-form h3 {
-  margin-top: 0;
+form h3 p {
+  margin-top: .2em;
+  margin-left: .2em;
+  margin-right: .2em;
 }
 
 textarea {
    font-family: inherit;
    font-size: inherit;
 }
+
+#button {
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+
+  background-color: #1DA1F2;
+  color: #F5F8FA;
+  font-size: large;
+  position: relative;
+  left: 40%;
+  border-radius: 20px;
+  width: 25%;
+  height: 100%;
+
+  /* hover effects */
+  cursor: pointer;
+  transition-duration: 0.4s;
+}
+
+#button:hover {
+  box-shadow: #111;
+  animation: pulse 1s;
+  box-shadow: 0 0 0 2em transparent;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+
+}
+
 </style>
