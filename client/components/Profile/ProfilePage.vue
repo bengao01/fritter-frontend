@@ -2,16 +2,13 @@
     <main>
       <section v-if="$route.params.username">
         <header>
-          <h1>Welcome @{{ $route.params.username }}</h1>
-        </header>
-        <header>
           <div class="left">
-            <h2>
+            <h1>
               Viewing {{ $route.params.username }}'s feed
               <span v-if="$store.state.filter">
                 by @{{ $store.state.filter }}
               </span>
-            </h2>
+            </h1>
           </div>
           <div class="right">
             <GetFreetsForm
