@@ -477,6 +477,10 @@ export default {
             params.callback();
           }
         }
+        // If we are on the profile page, then make sure to update the feed if we add or remove a follow
+        if (this.$route.params.username) {
+          this.$store.commit("refreshFeed", this.$route.params.username);
+        }
       } catch (e) {
         console.log("error in downvote request:", e)
       }

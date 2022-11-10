@@ -98,7 +98,7 @@ import GetFreetsForm from '@/components/Freet/GetFreetsForm.vue';
 import FollowerComponent from '@/components/Profile/FollowerComponent.vue';
 
 export default {
-  name: 'FreetPage',
+  name: 'ProfilePage',
   components: {FreetComponent, GetFreetsForm, FollowerComponent},
   mounted() {
     this.$store.commit("refreshFeed", this.$route.params.username);
