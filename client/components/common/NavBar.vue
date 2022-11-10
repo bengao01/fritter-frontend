@@ -11,27 +11,33 @@
       </h1>
     </div>
     <div class="right">
-      <router-link to="/">
+      <router-link style="text-decoration: none" class="link" to="/">
         Home
       </router-link>
       <router-link
         v-if="$store.state.username"
         :to="`/profile/${$store.state.username}`"
+        style="text-decoration: none"
+        class="link"
       >
         Profile
       </router-link>
-      <router-link to="/news">
+      <router-link style="text-decoration: none" class="link" to="/news">
         News
       </router-link>
       <router-link
         v-if="$store.state.username"
         to="/account"
+        style="text-decoration: none"
+        class="link"
       >
         Account
       </router-link>
       <router-link
         v-else
         to="/login"
+        style="text-decoration: none"
+        class="link"
       >
         Login
       </router-link>

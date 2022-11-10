@@ -21,7 +21,7 @@
       </header>
 
       <div id="depolarize" v-if="$store.state.username === $route.params.username">
-        <div>
+        <div id="depolarizeValue">
           Depolarize Value: {{this.$store.state.depolarize}}
         </div>
         <button id="depolarizeButton"
@@ -36,7 +36,6 @@
           <p id="followTitle">
             {{ this.$store.state.followers.length }} {{ this.$store.state.followers.length == 1 ? "Follower" : "Followers"}}
           </p>
-          <!-- {{ this.$store.state.followers.length }} {{ this.$store.state.followers.length == 1 ? "Follower" : "Followers"}} -->
           <section id="followers"
             v-if="$store.state.followers.length"
           >
@@ -47,11 +46,6 @@
               :follower="true"
             />
           </section>
-          <!-- <article
-            v-else
-          >
-            <h3>No followers found.</h3>
-          </article> -->
         </div>
         <div class="right">
           <p id="followTitle">
@@ -179,6 +173,11 @@ export default {
     font-size: 2em;
   }
 
+  #depolarizeValue {
+    font-size: 1.1em;
+    margin-left: 5px;
+  }
+
   button {
     margin-right: 10px;
   }
@@ -200,9 +199,9 @@ export default {
 
   }
 
-  .followTitle {
+  #followTitle {
     text-decoration: underline;
-    height: 30%;
+    font-size: 1.15em;
   }
 
   .left {

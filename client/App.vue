@@ -46,6 +46,10 @@ body {
   font-size: 1.2em;
 }
 
+.link {
+  color: black;
+}
+
 main {
   padding: 0 5em 5em;
 }

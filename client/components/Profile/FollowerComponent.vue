@@ -1,7 +1,14 @@
 <template>
-  <p>
-    @{{ this.follower ? this.follow.follower : this.follow.followee }}
-  </p>
+  <div v-if="this.follower">
+    <router-link style="text-decoration: none; font-weight: 300;" class="author" :to="`/profile/${this.follow.follower}`">
+      @{{ this.follow.follower }}
+    </router-link>
+  </div>
+  <div v-else>
+    <router-link style="text-decoration: none; font-weight: 300;" class="author" :to="`/profile/${this.follow.followee}`">
+      @{{ this.follow.followee }}
+    </router-link>
+  </div>
 </template>
 
 <script>
@@ -29,6 +36,10 @@ export default {
 </script>
   
 <style scoped>
+.author {
+  color: #1DA1F2;
+}
+
 p {
   margin: 0px;
 }
