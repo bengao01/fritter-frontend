@@ -74,7 +74,6 @@
           </article> -->
         </div>
       </div>
-
       <section
         v-if="$store.state.feed.length"
       >

@@ -34,6 +34,23 @@ router.beforeEach((to, from, next) => {
       next({name: 'Login'}); // Go to Login page if user navigates to Account and are not signed in
       return;
     }
+
+    if (to.name === 'Profile') {
+      // Accessing a profile while signed out redirects to Login page
+      if (!router.app.$store.state.username) {
+        router.app.$store.commit('alert', {
+          message: "You need to be logged in to view user profiles.", status: 'fail'
+        })
+        next({name: 'Login'});
+      }
+      const pathParams = to.path.split("/");
+      const username = pathParams[pathParams.length - 1];
+      console.log("username in router is: ", username);
+      router.app.$store.commit("refreshFeed", username);
+      router.app.$store.commit("refreshFollowers", username);
+      router.app.$store.commit("refreshFollowing", username);
+    }
+    
   }
 
   next();
