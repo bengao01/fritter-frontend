@@ -20,17 +20,6 @@
         </div>
       </header>
 
-      <div id="depolarize" v-if="$store.state.username === $route.params.username">
-        <div id="depolarizeValue">
-          Depolarize Value: {{this.$store.state.depolarize}}
-        </div>
-        <button id="depolarizeButton"
-          @click="toggleDepolarizeValue"
-        >
-          Toggle Depolarize Value
-        </button>
-      </div>
-
       <div class="follow">
         <div class="left">
           <p id="followTitle">
@@ -61,13 +50,20 @@
               :follower="false"
             />
           </section>
-          <!-- <article
-            v-else
-          >
-            <h3>No followers found.</h3>
-          </article> -->
         </div>
       </div>
+
+      <div id="depolarize" v-if="$store.state.username === $route.params.username">
+        <div id="depolarizeValue">
+          Depolarize Feed: {{ this.$store.state.depolarize ? "On" : "Off"}}
+        </div>
+        <button id="depolarizeButton"
+          @click="toggleDepolarizeValue"
+        >
+          Toggle Depolarize Setting
+        </button>
+      </div>
+
       <section
         v-if="$store.state.feed.length"
       >
@@ -193,7 +189,7 @@ export default {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-top: 10px;
+    margin-top: -30px;
     margin-bottom: 10px;
     height: 200px;
 
