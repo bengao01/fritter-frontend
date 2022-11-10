@@ -86,6 +86,7 @@ section {
 
 h1 {
   font-size: 2em;
+  
 }
 
 header, header > * {

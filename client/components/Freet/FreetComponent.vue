@@ -7,9 +7,21 @@
   >
     <header>
     <div id="freetHeader">
-        <h3 class="author">
-          @{{ freet.author }}
-        </h3>
+        <div
+          v-if="$store.state.username"
+        >
+          <router-link style="text-decoration: none; font-weight: 300;" class="author" :to="`/profile/${this.freet.author}`">
+            @{{ freet.author }}
+          </router-link>
+        </div>
+        <div
+          v-else
+        >
+          <h3 class="author">
+            @{{ freet.author }}
+          </h3>
+        </div>
+        
         <div
           v-if="$store.state.username"
           class="actions freetHeaderActions"
@@ -103,7 +115,7 @@
         
       </div>
 
-    <p class="info">
+    <p class="info" id="likeCount">
       {{ this.likeCount }} {{ this.likeCount === 1 ? "like" : "likes"}}
     </p>
     <section class="alerts">
@@ -544,13 +556,13 @@ button:hover {
 #followButton {
   background-color: #1DA1F2;
   color: #F5F8FA;
+  margin-left: 15px;
 }
 
 .freetHeaderActions {
   margin: 10px;
   position: relative;
-  top: 12px;
-  left: 15px;
+  top: -15px;
   color: #F5F8FA;
 }
 
@@ -568,8 +580,13 @@ button:hover {
   font-size: 1.3em;
 }
 
+#likeCount {
+  color: #1DA1F2;
+}
+
 .author {
   font-size: 1.4em;
+  color: #1DA1F2;
 }
 
 #date {

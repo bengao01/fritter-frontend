@@ -219,6 +219,7 @@ button:hover {
 
 .title {
   font-size: 1.4em;
+  color: #1DA1F2;
 }
 
 #date {

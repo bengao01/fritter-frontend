@@ -168,6 +168,7 @@ textarea, input {
    font-family: inherit;
    font-size: inherit;
    border-radius: 20px;
+   padding: 10px;
 }
 
 #button {
