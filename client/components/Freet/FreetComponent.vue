@@ -153,8 +153,8 @@ export default {
     if (this.$store.state.username != null) {
       this.requestLike(params);
       this.requestDownvote(params);
-      this.getLikeCount();
     }
+    this.getLikeCount();
   },
   data() {
     return {
