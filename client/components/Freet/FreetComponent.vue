@@ -27,13 +27,13 @@
           class="actions freetHeaderActions"
         >
           <button id="followButton"
-          v-if="!following && this.freet.author != $store.state.username"
-          @click="addFollow"
+            v-if="!$store.state.following.some(follow => follow.followee === freet.author) && freet.author != $store.state.username"
+            @click="addFollow"
           >
             Follow
           </button>
           <button id="followButton"
-            v-if="following && this.freet.author != $store.state.username"
+            v-if="$store.state.following.some(follow => follow.followee === freet.author) && freet.author != $store.state.username"
             @click="removeFollow"
           >
             Unfollow
@@ -154,7 +154,6 @@ export default {
       this.requestLike(params);
       this.requestDownvote(params);
       this.getLikeCount();
-      this.setFollowing();
     }
   },
   data() {
@@ -169,14 +168,6 @@ export default {
     };
   },
   methods: {
-    setFollowing() {
-      // If the current user is already following the owner of this Freet,
-      const author = this.freet.author;
-      this.following = this.$store.state.following.some(follow => {
-        return follow.followee === author;
-      });
-      console.log("followed value in setFollowing method:", this.following);
-    },
     startEditing() {
       /**
        * Enables edit mode on this freet.
@@ -284,7 +275,6 @@ export default {
           this.$store.commit('alert', {
             message: 'Successfully added follow!!', status: 'success'
           });
-          this.following = true;
         },
         body: JSON.stringify({"follower" : this.$store.state.username, "followee" : this.freet.author})
       };
@@ -297,7 +287,6 @@ export default {
           this.$store.commit('alert', {
             message: 'Successfully removed follow!', status: 'success'
           });
-          this.following = false;
         }
       };
       this.requestFollow(params);
@@ -460,7 +449,6 @@ export default {
             copyOfFollowing.push(res.follow);
             this.$store.commit("updateFollowing", copyOfFollowing)
             console.log("updated following value is:", this.$store.state.following);
-            this.setFollowing();
 
             params.callback();
           } else if (options.method === "DELETE") {
@@ -472,7 +460,6 @@ export default {
             console.log("resulting following array without old follow is:", removedFollowing)
             this.$store.commit("updateFollowing", removedFollowing)
             console.log("updated following value is:", this.$store.state.following);
-            this.setFollowing();
 
             params.callback();
           }
