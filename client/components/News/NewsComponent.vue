@@ -8,8 +8,10 @@
       <header>
         <div id="freetHeader">
           <h3 class="title">
-            {{ article.title }}
+            {{ article.title }} 
           </h3>
+          <img src="../../public/Twitter-Verified.svg" style="height: 5%">
+
           <div
             id = "freetHeaderActions"
             v-if="$store.state.username === 'admin'"
@@ -220,6 +222,7 @@ button:hover {
 .title {
   font-size: 1.4em;
   color: #1DA1F2;
+  margin-top: 5px;
 }
 
 #date {
@@ -234,10 +237,16 @@ button:hover {
   justify-content: flex-start;
 }
 
+.articleTitleBox {
+  display: flex; 
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 #freetHeaderActions {
   margin: 10px;
   position: relative;
-  top: 12px;
+  top: -10px;
   left: 15px;
   color: #F5F8FA;
 }
