@@ -197,12 +197,13 @@ export default {
     align-items: center;
     margin-top: 10px;
     margin-bottom: 10px;
-    
+    height: 200px;
 
   }
 
   .followTitle {
     text-decoration: underline;
+    height: 30%;
   }
 
   .left {
@@ -211,11 +212,25 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    vertical-align: text-top;
+    vertical-align: top;
     /* align-items:; */
     /* border: 1px solid #111;
     padding: 0.5rem;
     border-radius: 20px; */
+  }
+
+  .right {
+    margin-top: 0;
+    vertical-align: text-top;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    vertical-align: top;
+    /* align-items:; */
+    /* border: 1px solid #111;
+    padding: 0.5rem;
+    border-radius: 20px; */
+    overflow: scroll;
   }
 
   #depolarize {
@@ -225,11 +240,12 @@ export default {
 
   #following {
     margin-top: 5px;
+    overflow: scroll;
   }
 
   #followers {
     margin-top: 5px;
-
+    overflow: scroll;
   }
 
 </style>

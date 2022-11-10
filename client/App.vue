@@ -50,21 +50,6 @@ main {
   padding: 0 5em 5em;
 }
 
-/* button {
-  border-radius: 20px;
-  border: .75px solid #111;
-  font-size: medium;
-  padding: 5px;
-  margin: 5px;
-
-  background-color: #1DA1F2;
-  color: #F5F8FA;
-
-  /* hover effects */
-  /* cursor: pointer;
-  transition-duration: 0.4s;
-} */ */
-
 button:hover {
   box-shadow: #111;
   animation: pulse 1s;
