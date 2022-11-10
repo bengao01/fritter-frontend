@@ -24,7 +24,7 @@
         <div>
           Depolarize Value: {{this.$store.state.depolarize}}
         </div>
-        <button 
+        <button id="depolarizeButton"
           @click="toggleDepolarizeValue"
         >
           Toggle Depolarize Value
@@ -213,6 +213,7 @@ export default {
     flex-direction: column;
     justify-content: flex-start;
     vertical-align: top;
+    height: 70%;
     /* align-items:; */
     /* border: 1px solid #111;
     padding: 0.5rem;
@@ -226,10 +227,7 @@ export default {
     flex-direction: column;
     justify-content: flex-start;
     vertical-align: top;
-    /* align-items:; */
-    /* border: 1px solid #111;
-    padding: 0.5rem;
-    border-radius: 20px; */
+    height: 70%;
     overflow: scroll;
   }
 
@@ -240,12 +238,22 @@ export default {
 
   #following {
     margin-top: 5px;
-    overflow: scroll;
+    overflow-y: auto;
+  }
+
+  #depolarizeButton {
+    margin-top: 5px;
+    background-color: #1DA1F2;
+    color: #F5F8FA;
+    font-size: 1em;
+    position: relative; 
+    border-radius: 20px;
+
   }
 
   #followers {
     margin-top: 5px;
-    overflow: scroll;
+    overflow-y: auto;
   }
 
 </style>
