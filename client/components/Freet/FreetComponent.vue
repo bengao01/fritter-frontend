@@ -351,8 +351,10 @@ export default {
         } else if (options.method === "DELETE" || options.method === "GET") {
           r = await fetch(`/api/likes?freetId=${this.freet._id}`, options);
           this.likeCount = this.likeCount - 1;
-
+        } else if (options.method === "GET") {
+          r = await fetch(`/api/likes?freetId=${this.freet._id}`, options);
         }
+        
         if (!r.ok) {
           if(options.method === "GET"){
             console.log("Like doesn't exist");

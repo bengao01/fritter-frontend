@@ -5,18 +5,7 @@
         <div>
           <h1>
             Viewing {{ $route.params.username }}'s feed
-            <span v-if="$store.state.filter">
-              by @{{ $store.state.filter }}
-            </span>
           </h1>
-        </div>
-        <div>
-          <GetFreetsForm
-            ref="getFreetsForm"
-            value="author"
-            placeholder="🔍 Filter by author (optional)"
-            button="🔄 Get freets"
-          />
         </div>
       </header>
 
